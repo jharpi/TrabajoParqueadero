@@ -1,4 +1,0 @@
-# TrabajoParqueadero
-Trabajo final
-
-Conectividad 
