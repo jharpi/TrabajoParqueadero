@@ -67,6 +67,10 @@ public class Parqueadero {
     public boolean puestoDisponible(int fila, int columna) {
         return puestos[fila][columna] == null;
     }
+    
+    public Map < Integer,Double > getTarifasPorHora() {
+        return tarifasPorHora;
+    }
 
     public boolean estacionarVehiculo(Vehiculo vehiculo, int fila, int columna) {
         if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas) {
