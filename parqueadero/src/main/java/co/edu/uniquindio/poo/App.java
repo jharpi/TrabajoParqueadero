@@ -3,27 +3,18 @@ package co.edu.uniquindio.poo;
 import java.util.Map;
 import java.util.Scanner;
 
-/**
- * Clase principal que contiene el método main para ejecutar la aplicación del parqueadero.
- */
 public class App {
     private static final Scanner scanner = new Scanner(System.in);
     private static Parqueadero parqueadero;
 
-    /**
-     * Método principal utilizado para iniciar la aplicación del parqueadero.
-     * @param args Argumentos de línea de comandos (no utilizados).
-     * @throws ParqueaderoException Si ocurre un error en la aplicación del parqueadero.
-     */
     public static void main(String[] args) {
         System.out.println("Bienvenido al menú del parqueadero");
 
-        parqueadero = null; // Inicialmente el parqueadero no está habilitado.
+        parqueadero = null;
 
         boolean salir = false;
         while (!salir) {
             System.out.println("\nSeleccione una opción");
-            // Mostrar las opciones que tiene el menú
             System.out.println("1. Configurar Tamaño del parqueadero");
             System.out.println("2. Configurar valores de tarifas");
             System.out.println("3. Estacionar vehículo");
@@ -34,13 +25,10 @@ public class App {
             System.out.println("8. Estado del Parqueadero");
             System.out.println("9. Salir");
 
-            // Leer la opción seleccionada por el usuario
             int opcion = leerEntero("Ingrese el número de opción: ");
 
-            // Realizar acción según opción seleccionada
             switch (opcion) {
                 case 1:
-                    // Configuración tamaño del parqueadero
                     System.out.println("Configuración del tamaño del parqueadero");
                     int filas = leerEntero("Ingrese el número de filas del parqueadero (entre 1 y 100): ", 1, 100);
                     int columnas = leerEntero("Ingrese el número de columnas del parqueadero (entre 1 y 100): ", 1, 100);
@@ -48,14 +36,12 @@ public class App {
                     break;
 
                 case 2:
-                    // Configuración de las tarifas
                     System.out.println("Configuración de tarifas");
                     if (parqueadero == null) {
                         System.out.println("Primero configure el tamaño del parqueadero antes de establecer las tarifas.");
                         break;
                     }
 
-                    // Tarifas por Hora de uso
                     System.out.println("Ingrese las tarifas por hora para cada tipo de vehículo: ");
                     double tarifaHoraCarro = leerDouble("Tarifa por hora para carro: ");
                     double tarifaHoraMotoClasica = leerDouble("Tarifa por hora para moto clásica: ");
@@ -64,7 +50,6 @@ public class App {
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_MOTO_CLASICA, tarifaHoraMotoClasica);
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_MOTO_HIBRIDA, tarifaHoraMotoHibrida);
 
-                    // Tarifas por día de uso
                     System.out.println("Ingrese las tarifas diarias y mensuales para cada tipo de vehículo: ");
                     System.out.println("1. Carro");
                     double tarifaDiariaCarro = leerDouble("Tarifa diaria para carro: ");
@@ -86,7 +71,6 @@ public class App {
                     break;
 
                 case 3:
-                    // Parquear vehículo
                     System.out.println("Estacionar vehículo");
                     System.out.println("Ingrese la placa del vehículo (formato ABC123): ");
                     String placa = scanner.next();
@@ -98,13 +82,18 @@ public class App {
                     int tipo = leerEntero("", 1, 3);
 
                     Vehiculo vehiculo;
-                    if (tipo == 1) {
+                    if (tipo == Parqueadero.TIPO_CARRO) {
                         vehiculo = new Carro(placa, modelo, propietario);
-                    } else if (tipo == 2 || tipo == 3) {
+                    } else if (tipo == Parqueadero.TIPO_MOTO_CLASICA) {
                         System.out.println("Ingrese la velocidad máxima del vehículo: ");
                         int velocidadMaxima = scanner.nextInt();
                         scanner.nextLine();
                         vehiculo = new Moto(placa, modelo, propietario, velocidadMaxima);
+                    } else if (tipo == Parqueadero.TIPO_MOTO_HIBRIDA) {
+                        System.out.println("Ingrese la velocidad máxima del vehículo: ");
+                        int velocidadMaxima = scanner.nextInt();
+                        scanner.nextLine();
+                        vehiculo = new MotoHibrida(placa, modelo, propietario, velocidadMaxima);
                     } else {
                         System.out.println("Tipo de vehículo invalido");
                         continue;
@@ -119,7 +108,6 @@ public class App {
                         break;
                     }
 
-                    // Intentar parquear el vehículo
                     if (parqueadero.estacionarVehiculo(vehiculo, fila, columna)) {
                         System.out.println("Vehículo estacionado correctamente.");
                     } else {
@@ -128,7 +116,6 @@ public class App {
                     break;
 
                 case 4:
-                    // Desocupar Puesto
                     System.out.println("Ingrese la fila del puesto a desocupar: ");
                     fila = leerEntero("", 1, parqueadero.getFilas()) - 1;
                     System.out.println("Ingrese la columna del puesto a desocupar: ");
@@ -143,7 +130,6 @@ public class App {
                     break;
 
                 case 5:
-                    // Identificar propietario del vehículo
                     System.out.println("Ingrese la fila del puesto para identificar al propietario: ");
                     fila = leerEntero("", 1, parqueadero.getFilas()) - 1;
                     System.out.println("Ingrese la columna del puesto para identificar al propietario: ");
@@ -158,7 +144,6 @@ public class App {
                     break;
 
                 case 6:
-                    // Generar reporte diario del dinero recaudado en el parqueadero
                     Map<Integer, Double> reporteDiario = parqueadero.generarReporteDiario();
                     System.out.println("Reporte diario: ");
                     for (Map.Entry<Integer, Double> entry : reporteDiario.entrySet()) {
@@ -169,20 +154,19 @@ public class App {
                     break;
 
                 case 7:
-                    // Generar reporte mensual del dinero recaudado en el parqueadero
                     Map<Integer, Double> reporteMensual = parqueadero.generarReporteMensual();
                     System.out.println("Reporte mensual: ");
                     for (Map.Entry<Integer, Double> entry : reporteMensual.entrySet()) {
                         int tipoVehiculo = entry.getKey();
-                        double costoPorHora = parqueadero.getTarifasPorHora().getOrDefault(tipoVehiculo, 0.0);
-                        double costoPorDia = parqueadero.getTarifasDiarias().getOrDefault(tipoVehiculo, 0.0);
-                        double costoMensual = parqueadero.getTarifasMensuales().getOrDefault(tipoVehiculo, 0.0);
-                        System.out.println("Tipo de vehículo: " + tipoVehiculo + ", Costo por Hora: $" + costoPorHora + ", Costo diario: $" + costoPorDia + ", Costo mensual: $" + costoMensual);
+        
+                        double costoMensual = entry.getValue();
+                        
+
+                        System.out.println("Tipo de vehículo: " + tipoVehiculo +  ", Costo mensual: $" + costoMensual);
                     }
                     break;
 
                 case 8:
-                    // Estado del Parqueadero
                     System.out.println("Estado del parqueadero: ");
                     for (int i = 0; i < parqueadero.getFilas(); i++) {
                         for (int j = 0; j < parqueadero.getColumnas(); j++) {
@@ -202,19 +186,17 @@ public class App {
         }
     }
 
-    // Método auxiliar para leer un entero
     public static int leerEntero(String mensaje) {
         System.out.println(mensaje);
         while (!scanner.hasNextInt()) {
             System.out.println("Error: Debe ingresar un número entero.");
-            scanner.next(); // Consumir el token inválido
+            scanner.next();
         }
         int valor = scanner.nextInt();
         scanner.nextLine();
         return valor;
     }
 
-    // Método para leer un entero dentro de un rango con un mensaje específico
     public static int leerEntero(String mensaje, int min, int max) {
         int valor;
         do {
@@ -226,16 +208,16 @@ public class App {
         return valor;
     }
 
-    // Método para leer un número decimal (double) con un mensaje específico
     public static double leerDouble(String mensaje) {
         System.out.println(mensaje);
         while (!scanner.hasNextDouble()) {
             System.out.println("Error: Debe ingresar un número decimal.");
-            scanner.next(); // Consumir el token inválido
+            scanner.next();
         }
         double valor = scanner.nextDouble();
         scanner.nextLine();
         return valor;
     }
 }
+
 
