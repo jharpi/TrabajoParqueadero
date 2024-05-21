@@ -1,19 +1,21 @@
 package co.edu.uniquindio.poo;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ *Prueba unitaria para aplicación sencilla.
  */
 public class AppTest 
     extends TestCase
 {
     /**
-     * Create the test case
+     * Crear el test
      *
-     * @param testName name of the test case
+     * @param testName test del nombre 
      */
     public AppTest( String testName )
     {
@@ -21,7 +23,7 @@ public class AppTest
     }
 
     /**
-     * @return the suite of tests being tested
+     * @return el conjunto de pruebas que se están probando
      */
     public static Test suite()
     {
@@ -29,7 +31,7 @@ public class AppTest
     }
 
     /**
-     * Rigourous Test :-)
+     * prueba rigurosa
      */
     public void testApp()
     {
