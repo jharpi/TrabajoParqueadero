@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo;
+package parqueadero2;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

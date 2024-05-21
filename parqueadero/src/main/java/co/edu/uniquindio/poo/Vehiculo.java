@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo;
+package parqueadero2
 
 public abstract class Vehiculo {
     protected String placa; // Placa del vehículo
