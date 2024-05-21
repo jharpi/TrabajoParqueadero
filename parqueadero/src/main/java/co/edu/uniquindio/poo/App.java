@@ -24,8 +24,8 @@ public class App {
         while (!salir) {
             System.out.println("\nSeleccione una opción");
             // Mostrar las opciones que tiene el menú
-            System.out.println("1. Configurar valores de tarifas");
-            System.out.println("2. Configurar Tamaño del parqueadero");
+            System.out.println("1. Configurar Tamaño del parqueadero");
+            System.out.println("2. Configurar valores de tarifas");
             System.out.println("3. Estacionar vehículo");
             System.out.println("4. Desocupar puesto");
             System.out.println("5. Identificar propietario del vehículo");
@@ -40,6 +40,16 @@ public class App {
             //  Realizar acción según  opción seleccionada
             switch (opcion) {
                 case 1:
+    
+                     // Configuración tamaño del parqueadero
+                     System.out.println("Configuración del tamaño del parqueadero");
+                     int filas = leerEntero("Ingrese el número de filas del parqueadero (entre 1 y 100): ", 1, 100);
+                     int columnas = leerEntero("Ingrese el número de columnas del parqueadero (entre 1 y 100): ", 1, 100);
+                     parqueadero = new Parqueadero(filas, columnas);
+                     break;
+ 
+                case 2:
+                
                     // Configuración de las tarifas
                     System.out.println("Configuración de tarifas");
                     if (parqueadero == null) {
@@ -77,13 +87,8 @@ public class App {
                     parqueadero.setTarifaMensual(Parqueadero.TIPO_MOTO_HIBRIDA, tarifaMensualMotoHibrida);
                     break;
 
-                case 2:
-                    // Configuración tamaño del parqueadero
-                    System.out.println("Configuración del tamaño del parqueadero");
-                    int filas = leerEntero("Ingrese el número de filas del parqueadero (entre 1 y 100): ", 1, 100);
-                    int columnas = leerEntero("Ingrese el número de columnas del parqueadero (entre 1 y 100): ", 1, 100);
-                    parqueadero = new Parqueadero(filas, columnas);
-                    break;
+
+                    
 
                 case 3:
                     // parquear vehículo
