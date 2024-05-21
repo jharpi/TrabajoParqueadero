@@ -1,4 +1,4 @@
-package parqueadero2;
+package co.edu.uniquindio.poo;
 
 public class Moto extends Vehiculo {
     private int velocidadMaxima; // La velocidad máxima que alcanza la moto.
