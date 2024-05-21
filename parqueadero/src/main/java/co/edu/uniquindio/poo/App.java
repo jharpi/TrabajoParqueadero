@@ -158,11 +158,15 @@ public class App {
                     System.out.println("Reporte mensual: ");
                     for (Map.Entry<Integer, Double> entry : reporteMensual.entrySet()) {
                         int tipoVehiculo = entry.getKey();
+                        double costoPorHora = parqueadero.getTarifas().getOrDefault(tipoVehiculo, 0.0);
+                        double costoPorDia = parqueadero.getTarifasDiarias().getOrDefault(tipoVehiculo, 0.0);
+                        double costoMensual = parqueadero.getTarifasMensuales().getOrDefault(tipoVehiculo, 0.0);
         
-                        double costoMensual = entry.getValue();
+                        double total = entry.getValue();
+                        total +=costoPorHora+costoPorDia+costoMensual;
                         
 
-                        System.out.println("Tipo de vehículo: " + tipoVehiculo +  ", Costo mensual: $" + costoMensual);
+                        System.out.println("Tipo de vehículo: " + tipoVehiculo +  ", Costo total: $" + total);
                     }
                     break;
 
