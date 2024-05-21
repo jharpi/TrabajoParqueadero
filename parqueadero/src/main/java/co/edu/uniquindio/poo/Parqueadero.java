@@ -68,7 +68,6 @@ public class Parqueadero {
         return puestos[fila][columna] == null;
     }
 
-
     public boolean estacionarVehiculo(Vehiculo vehiculo, int fila, int columna) {
         if (fila <= 0 || fila > filas || columna <= 0 || columna > columnas) {
             System.out.println("La posición especificada está fuera de los límites del parqueadero.");
@@ -94,11 +93,11 @@ public class Parqueadero {
     }
 
     private boolean validarNombrePropietario(String propietario) {
-        throw new UnsupportedOperationException("Unimplemented method 'validarNombrePropietario'");
+        return propietario != null && propietario.matches("[a-zA-Z\\s]+");
     }
 
     private boolean validarFormatoPlaca(String placa) {
-        throw new UnsupportedOperationException("Unimplemented method 'validarFormatoPlaca'");
+        return placa != null && placa.matches("[A-Z]{3}\\d{3}");
     }
 
     public Vehiculo desocuparPuesto(int fila, int columna) {
@@ -114,7 +113,7 @@ public class Parqueadero {
         for (Vehiculo[] fila : puestos) {
             for (Vehiculo vehiculo : fila) {
                 if (vehiculo != null && vehiculo.getPlaca().equals(placa)) {
-                    int  tipoVehiculo = vehiculo.getTipo();
+                    int tipoVehiculo = vehiculo.getTipo();
                     double costo = calcularCostoEstadia(horaEntrada, horaSalida, tipoVehiculo);
                     return costo;
                 }
@@ -124,24 +123,10 @@ public class Parqueadero {
         return 0.0;
     }
 
-    /**
-     * Identifica al propietario de un vehículo estacionado en un puesto del parqueadero.
-     * 
-     * @param fila La fila del puesto de estacionamiento.
-     * @param columna La columna del puesto de estacionamiento.
-     * @return El nombre del propietario del vehículo estacionado en el puesto, o null si está vacío.
-     */
     public String identificarPropietario(int fila, int columna) {
         return puestos[fila][columna] != null ? puestos[fila][columna].getPropietario() : null;
     }
 
-    /**
-     * Registra el ingreso de un vehículo al parqueadero.
-     * 
-     * @param vehiculo El vehículo que ingresa al parqueadero.
-     * @param fila La fila del puesto donde se estaciona el vehículo.
-     * @param columna La columna del puesto donde se estaciona el vehículo.
-     */
     public void registrarIngreso(Vehiculo vehiculo, int filas, int columnas) {
         registroEntradas.put(vehiculo.getPlaca(), LocalDateTime.now());
     }
@@ -150,23 +135,12 @@ public class Parqueadero {
         return registroEntradas;
     }
 
-    /**
-    * Calcula el costo de la estadía de un vehículo en el parqueadero, basado en el tiempo transcurrido y la tarifa por hora del tipo de vehículo.
-    * 
-    * @param horaEntrada La hora de entrada del vehículo al parqueadero.
-    * @param horaSalida La hora de salida del vehículo del parqueadero.
-    * @param tipoVehiculo El tipo de vehículo estacionado.
-    * @return El costo de la estadía del vehículo.
-    */
     public double calcularCostoEstadia(LocalDateTime horaEntrada, LocalDateTime horaSalida, int tipoVehiculo) {
-        // CAlcula la duración de la estadía del vehículo
         Duration tiempoTranscurrido = Duration.between(horaEntrada, horaSalida);
         long horas = tiempoTranscurrido.toHours();
 
-        // Obtiene la tarifa por hora del tipo de vehículo
         double tarifaHora = tarifas.getOrDefault(tipoVehiculo, 0.0);
 
-        // Calcula el costo ttal de la estadía 
         return horas * tarifaHora;
     }
 
@@ -175,7 +149,6 @@ public class Parqueadero {
     }
 
     public double calcularcosto(String placa, int horas) {
-
         LocalDateTime horaEntrada = registroEntradas.get(placa);
         LocalDateTime horaSalida = horaEntrada.plusHours(horas);
         Vehiculo vehiculo = puestos[0][0];
@@ -183,17 +156,9 @@ public class Parqueadero {
         return calcularCostoEstadia(horaEntrada, horaSalida, tipoVehiculo);
     }
 
-    /**
-    * Genera un reporte del costo total de la estadía de cada tipo de vehículo en el parqueadero en un día específico.
-    * El reporte se calcula sumando el costo de la estadía de cada vehículo estacionado, tomando en cuenta las tarifas
-    * por hora y por día de cada tipo de vehículo.
-    * 
-    * @return Un mapa que contiene el tipo de vehículo como clave y el costo total de la estadía como valor.
-    */
     public Map<Integer, Double> generarReporteDiario() {
         Map<Integer, Double> reporteDiario = new HashMap<>();
 
-        // Itera sobre cada vehículo estacionado para calcular su costo de estadía.
         for (Map.Entry<String, LocalDateTime> entry : registroEntradas.entrySet()) {
             String placa = entry.getKey();
             LocalDateTime horaEntrada = entry.getValue();
@@ -201,9 +166,8 @@ public class Parqueadero {
             Duration tiempoTranscurrido = Duration.between(horaEntrada, horaSalida);
             long horas = tiempoTranscurrido.toHours();
 
-            // Si hay vehículos estacionados en el parqueadero.
             if (puestos != null && puestos.length > 0 && puestos[0].length > 0) {
-                for (int i = 0; i < puestos.length; i ++) {
+                for (int i = 0; i < puestos.length; i++) {
                     for (int j = 0; j < puestos[0].length; j++) {
                         Vehiculo vehiculo = puestos[i][j];
                         if (vehiculo != null && vehiculo.getPlaca().equals(placa)) {
@@ -216,34 +180,24 @@ public class Parqueadero {
                     }
                 }
             } else {
-                // Si no hay información de puestos disponibles, muestra un mensaje de errr¿or
                 System.out.println("Error: No se pudo generar el reporte Diario. No hay información de puestos disponibles");
                 return null;
             }
-        } return reporteDiario;
+        }
+        return reporteDiario;
     }
 
-    /**
-    * Genera un reporte del costo total de la estadía de cada tipo de vehículo en el parqueadero en un mes específico.
-    * El reporte se calcula sumando el costo de la estadía de cada vehículo estacionado, tomando en cuenta las tarifas
-    * por día y mensuales de cada tipo de vehículo.
-    * 
-    * @return Un mapa que contiene el tipo de vehículo como clave y el costo total de la estadía como valor.
-    */
     public Map<Integer, Double> generarReporteMensual() {
         Map<Integer, Double> reporteMensual = new HashMap<>();
 
-        // Itera sobre cada vehículo estacionado para calcular su costo de estadía mensual
         for (Map.Entry<String, LocalDateTime> entry : registroEntradas.entrySet()) {
             String placa = entry.getKey();
             LocalDateTime horaEntrada = entry.getValue();
             LocalDateTime horaSalida = LocalDateTime.now();
             Duration tiempoTranscurrido = Duration.between(horaEntrada, horaSalida);
-            long diasEstadia =  tiempoTranscurrido.toDays();
+            long diasEstadia = tiempoTranscurrido.toDays();
 
-            // s+Si la estadía es mayor a 0 días
             if (diasEstadia > 0) {
-                // Cobrar tarifa diaria o mensual según corresponda 
                 Vehiculo vehiculo = buscarVehiculoPorPlaca(placa);
                 if (vehiculo != null) {
                     double total = reporteMensual.getOrDefault(vehiculo.getTipo(), 0.0);
@@ -275,6 +229,5 @@ public class Parqueadero {
         }
         return null;
     }
-
 }
 
