@@ -1,29 +1,40 @@
-/**
- * Clase para probar el funcionamiento del código
- * @author Área de programación UQ
- * @since 2023-08
- * 
- * Licencia GNU/GPL V3.0 (https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE) 
- */
 package co.edu.uniquindio.poo;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.util.logging.Logger;
-import org.junit.jupiter.api.Test;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ *Prueba unitaria para aplicación sencilla.
  */
-public class AppTest {
-    private static final Logger LOG = Logger.getLogger(AppTest.class.getName());
+public class AppTest 
+    extends TestCase
+{
+    /**
+     * Crear el test
+     *
+     * @param testName test del nombre 
+     */
+    public AppTest( String testName )
+    {
+        super( testName );
+    }
 
     /**
-     * Rigorous Test :-)
+     * @return el conjunto de pruebas que se están probando
      */
-    @Test
-    public void shouldAnswerWithTrue() {
-        LOG.info("Iniciado test shouldAnswerWithTrue");
-        assertTrue(true);
-        LOG.info("Finalizando test shouldAnswerWithTrue");
+    public static Test suite()
+    {
+        return new TestSuite( AppTest.class );
+    }
+
+    /**
+     * prueba rigurosa
+     */
+    public void testApp()
+    {
+        assertTrue( true );
     }
 }
