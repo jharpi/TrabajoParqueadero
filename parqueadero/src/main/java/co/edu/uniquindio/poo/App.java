@@ -11,7 +11,7 @@ public class App {
     private static Parqueadero parqueadero;
 
     /**
-     *  Método principal utilizado para iniciar la aplicación del parqueadero.
+     * Método principal utilizado para iniciar la aplicación del parqueadero.
      * @param args Argumentos de línea de comandos (no utilizados).
      * @throws ParqueaderoException Si ocurre un error en la aplicación del parqueadero.
      */
@@ -37,19 +37,17 @@ public class App {
             // Leer la opción seleccionada por el usuario
             int opcion = leerEntero("Ingrese el número de opción: ");
 
-            //  Realizar acción según  opción seleccionada
+            // Realizar acción según opción seleccionada
             switch (opcion) {
                 case 1:
-    
-                     // Configuración tamaño del parqueadero
-                     System.out.println("Configuración del tamaño del parqueadero");
-                     int filas = leerEntero("Ingrese el número de filas del parqueadero (entre 1 y 100): ", 1, 100);
-                     int columnas = leerEntero("Ingrese el número de columnas del parqueadero (entre 1 y 100): ", 1, 100);
-                     parqueadero = new Parqueadero(filas, columnas);
-                     break;
- 
+                    // Configuración tamaño del parqueadero
+                    System.out.println("Configuración del tamaño del parqueadero");
+                    int filas = leerEntero("Ingrese el número de filas del parqueadero (entre 1 y 100): ", 1, 100);
+                    int columnas = leerEntero("Ingrese el número de columnas del parqueadero (entre 1 y 100): ", 1, 100);
+                    parqueadero = new Parqueadero(filas, columnas);
+                    break;
+
                 case 2:
-                
                     // Configuración de las tarifas
                     System.out.println("Configuración de tarifas");
                     if (parqueadero == null) {
@@ -60,8 +58,8 @@ public class App {
                     // Tarifas por Hora de uso
                     System.out.println("Ingrese las tarifas por hora para cada tipo de vehículo: ");
                     double tarifaHoraCarro = leerDouble("Tarifa por hora para carro: ");
-                    double tarifaHoraMotoClasica = leerDouble("Tarifa por hora para moto clásica");
-                    double tarifaHoraMotoHibrida = leerDouble("Tarifa por hora para moto Híbrida");
+                    double tarifaHoraMotoClasica = leerDouble("Tarifa por hora para moto clásica: ");
+                    double tarifaHoraMotoHibrida = leerDouble("Tarifa por hora para moto híbrida: ");
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_CARRO, tarifaHoraCarro);
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_MOTO_CLASICA, tarifaHoraMotoClasica);
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_MOTO_HIBRIDA, tarifaHoraMotoHibrida);
@@ -87,11 +85,8 @@ public class App {
                     parqueadero.setTarifaMensual(Parqueadero.TIPO_MOTO_HIBRIDA, tarifaMensualMotoHibrida);
                     break;
 
-
-                    
-
                 case 3:
-                    // parquear vehículo
+                    // Parquear vehículo
                     System.out.println("Estacionar vehículo");
                     System.out.println("Ingrese la placa del vehículo (formato ABC123): ");
                     String placa = scanner.next();
@@ -104,9 +99,9 @@ public class App {
 
                     Vehiculo vehiculo;
                     if (tipo == 1) {
-                        vehiculo = new Carro(placa, modelo, propietario);   
-                    } else if (tipo == 2 || tipo == 3) { 
-                        System.out.println("Ingrese la velocidad máxima del vehicuo: ");
+                        vehiculo = new Carro(placa, modelo, propietario);
+                    } else if (tipo == 2 || tipo == 3) {
+                        System.out.println("Ingrese la velocidad máxima del vehículo: ");
                         int velocidadMaxima = scanner.nextInt();
                         scanner.nextLine();
                         vehiculo = new Moto(placa, modelo, propietario, velocidadMaxima);
@@ -116,14 +111,14 @@ public class App {
                     }
 
                     System.out.println("Ingrese la fila y columna del puesto (fila columna): ");
-                    int fila = leerEntero("Fila: ", 0, parqueadero.getFilas());
-                    int columna = leerEntero("Columna: ", 0, parqueadero.getColumnas());
+                    int fila = leerEntero("Fila: ", 1, parqueadero.getFilas()) - 1;
+                    int columna = leerEntero("Columna: ", 1, parqueadero.getColumnas()) - 1;
 
                     if (!parqueadero.puestoDisponible(fila, columna)) {
                         System.out.println("El puesto está ocupado.");
                         break;
                     }
-                
+
                     // Intentar parquear el vehículo
                     if (parqueadero.estacionarVehiculo(vehiculo, fila, columna)) {
                         System.out.println("Vehículo estacionado correctamente.");
@@ -135,30 +130,30 @@ public class App {
                 case 4:
                     // Desocupar Puesto
                     System.out.println("Ingrese la fila del puesto a desocupar: ");
-                    fila = leerEntero("");
+                    fila = leerEntero("", 1, parqueadero.getFilas()) - 1;
                     System.out.println("Ingrese la columna del puesto a desocupar: ");
-                    columna = leerEntero("");
+                    columna = leerEntero("", 1, parqueadero.getColumnas()) - 1;
 
                     Vehiculo vehiculoDesocupado = parqueadero.desocuparPuesto(fila, columna);
                     if (vehiculoDesocupado != null) {
-                        System.out.println("Se ha desocupado el puesto de manera correcta");
+                        System.out.println("Se ha desocupado el puesto de manera correcta.");
                     } else {
-                        System.out.println("El puesto se encuentra vacío");
+                        System.out.println("El puesto se encuentra vacío.");
                     }
                     break;
 
                 case 5:
                     // Identificar propietario del vehículo
                     System.out.println("Ingrese la fila del puesto para identificar al propietario: ");
-                    fila = leerEntero("");
+                    fila = leerEntero("", 1, parqueadero.getFilas()) - 1;
                     System.out.println("Ingrese la columna del puesto para identificar al propietario: ");
-                    columna = leerEntero("");
+                    columna = leerEntero("", 1, parqueadero.getColumnas()) - 1;
 
                     String propietarioIdentificado = parqueadero.identificarPropietario(fila, columna);
                     if (propietarioIdentificado != null) {
                         System.out.println("El propietario del vehículo en ese puesto es: " + propietarioIdentificado);
                     } else {
-                        System.out.println("El puesto se encuentra vacío");
+                        System.out.println("El puesto se encuentra vacío.");
                     }
                     break;
 
@@ -214,12 +209,12 @@ public class App {
             System.out.println("Error: Debe ingresar un número entero.");
             scanner.next(); // Consumir el token inválido
         }
-        int valor = scanner.nextInt(); //espera a que el usuario ingrese una línea de texto 
-        scanner.nextLine(); // 
+        int valor = scanner.nextInt();
+        scanner.nextLine();
         return valor;
     }
 
-    // se muestra un mensaje de error indicando que el número debe estar entre el valor min y max
+    // Método para leer un entero dentro de un rango con un mensaje específico
     public static int leerEntero(String mensaje, int min, int max) {
         int valor;
         do {
@@ -231,7 +226,7 @@ public class App {
         return valor;
     }
 
-    // muestra un mensaje de error y vuelve a solicitar al usuario que ingrese un número decimal
+    // Método para leer un número decimal (double) con un mensaje específico
     public static double leerDouble(String mensaje) {
         System.out.println(mensaje);
         while (!scanner.hasNextDouble()) {
@@ -239,7 +234,7 @@ public class App {
             scanner.next(); // Consumir el token inválido
         }
         double valor = scanner.nextDouble();
-        scanner.nextLine(); // espera a que el usuario ingrese una línea de texto 
+        scanner.nextLine();
         return valor;
     }
 }
