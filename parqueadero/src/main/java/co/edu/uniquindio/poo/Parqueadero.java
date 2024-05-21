@@ -69,7 +69,7 @@ public class Parqueadero {
     }
 
     public boolean estacionarVehiculo(Vehiculo vehiculo, int fila, int columna) {
-        if (fila <= 0 || fila > filas || columna <= 0 || columna > columnas) {
+        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas) {
             System.out.println("La posición especificada está fuera de los límites del parqueadero.");
             return false;
         }
