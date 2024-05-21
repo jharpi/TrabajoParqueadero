@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo;
+package parqueadero2;
 
 public class Carro extends Vehiculo {
 
