@@ -130,7 +130,7 @@ public class ParqueaderoTest {
     @Test
     public void testBuscarVehiculoPorPlaca_VehiculoNoExistente() {
  
-        String placa = "ABC123";
+        String placa = "TRT123";
         Vehiculo vehiculo = parqueadero.buscarVehiculoPorPlaca(placa);
         assertNull(vehiculo, "No debería encontrarse un vehículo con la placa " + placa);
     }

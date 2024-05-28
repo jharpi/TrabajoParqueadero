@@ -10,22 +10,22 @@ public class VehiculoTest {
 
     @BeforeEach
     public void setUp() {
-        vehiculo = new Carro("ABC123", "Toyota", "Juan Perez");
+        vehiculo = new Carro("TRT123", "Renault", "Miguel");
     }
 
     @Test
     public void testGetPlaca() {
-        assertEquals("ABC123", vehiculo.getPlaca());
+        assertEquals("TRT123", vehiculo.getPlaca());
     }
 
     @Test
     public void testGetModelo() {
-        assertEquals("Toyota", vehiculo.getModelo());
+        assertEquals("FZ", vehiculo.getModelo());
     }
 
     @Test
     public void testGetPropietario() {
-        assertEquals("Juan Perez", vehiculo.getPropietario());
+        assertEquals("Miguel", vehiculo.getPropietario());
     }
 
     @Test
