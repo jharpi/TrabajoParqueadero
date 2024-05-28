@@ -14,6 +14,7 @@ public class App {
 
         boolean salir = false;
         while (!salir) {
+            /* Mostrar opciones del menú*/
             System.out.println("\nSeleccione una opción");
             System.out.println("1. Configurar Tamaño del parqueadero");
             System.out.println("2. Configurar valores de tarifas");
@@ -25,14 +26,14 @@ public class App {
             System.out.println("8. Estado del Parqueadero");
             System.out.println("9. Salir");
 
-            int opcion = leerEntero("Ingrese el número de opción: ");
+            int opcion = leerEntero("Ingrese el número de opción: "); /*opción seleccionada */
 
-            switch (opcion) {
+            switch (opcion) {/*Ejecutar la opción seleccionada */
                 case 1:
                     System.out.println("Configuración del tamaño del parqueadero");
                     int filas = leerEntero("Ingrese el número de filas del parqueadero (entre 1 y 100): ", 1, 100);
                     int columnas = leerEntero("Ingrese el número de columnas del parqueadero (entre 1 y 100): ", 1, 100);
-                    parqueadero = new Parqueadero(filas, columnas);
+                    parqueadero = new Parqueadero(filas, columnas); /*Crear una nueva instancia de Parqueadero con el tamaño especificado */
                     break;
 
                 case 2:
@@ -41,7 +42,7 @@ public class App {
                         System.out.println("Primero configure el tamaño del parqueadero antes de establecer las tarifas.");
                         break;
                     }
-
+                     /*tarifas por hora para cada tipo de vehículo */
                     System.out.println("Ingrese las tarifas por hora para cada tipo de vehículo: ");
                     double tarifaHoraCarro = leerDouble("Tarifa por hora para carro: ");
                     double tarifaHoraMotoClasica = leerDouble("Tarifa por hora para moto clásica: ");
@@ -50,6 +51,7 @@ public class App {
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_MOTO_CLASICA, tarifaHoraMotoClasica);
                     parqueadero.setTarifaPorHora(Parqueadero.TIPO_MOTO_HIBRIDA, tarifaHoraMotoHibrida);
 
+                    /*tarifas diarias y mensuales para cada tipo de vehículo */
                     System.out.println("Ingrese las tarifas diarias y mensuales para cada tipo de vehículo: ");
                     System.out.println("1. Carro");
                     double tarifaDiariaCarro = leerDouble("Tarifa diaria para carro: ");
@@ -70,7 +72,7 @@ public class App {
                     parqueadero.setTarifaMensual(Parqueadero.TIPO_MOTO_HIBRIDA, tarifaMensualMotoHibrida);
                     break;
 
-                case 3:
+                case 3: /*Estacionamiento de un vehículo */
                     System.out.println("Estacionar vehículo");
                     System.out.println("Ingrese la placa del vehículo (formato ABC123): ");
                     String placa = scanner.next();
@@ -81,7 +83,7 @@ public class App {
                     System.out.println("Ingrese el tipo del vehículo (1: Carro, 2: Moto Clásica, 3: Moto Híbrida): ");
                     int tipo = leerEntero("", 1, 3);
 
-                    Vehiculo vehiculo;
+                    Vehiculo vehiculo; /*Crear una instancia del vehículo según su tipo */
                     if (tipo == Parqueadero.TIPO_CARRO) {
                         vehiculo = new Carro(placa, modelo, propietario);
                     } else if (tipo == Parqueadero.TIPO_MOTO_CLASICA) {
@@ -98,24 +100,26 @@ public class App {
                         System.out.println("Tipo de vehículo invalido");
                         continue;
                     }
-
+                    /* fila y columna del puesto para estacionar el vehículo */
                     System.out.println("Ingrese la fila y columna del puesto (fila columna): ");
-                    int fila = leerEntero("Fila: ", 1, parqueadero.getFilas()) - 1;
+                    int fila = leerEntero("Fila: ", 1, parqueadero.getFilas()) - 1; 
                     int columna = leerEntero("Columna: ", 1, parqueadero.getColumnas()) - 1;
 
+                    /*Verificar si el puesto está disponible y estacionar el vehículo */
                     if (!parqueadero.puestoDisponible(fila, columna)) {
                         System.out.println("El puesto está ocupado.");
                         break;
                     }
 
-                    if (parqueadero.estacionarVehiculo(vehiculo, fila, columna)) {
+                   
+                    if (parqueadero.estacionarVehiculo(vehiculo, fila, columna)) { 
                         System.out.println("Vehículo estacionado correctamente.");
                     } else {
                         System.out.println("No se pudo estacionar el vehículo. El puesto se encuentra ocupado.");
                     }
                     break;
 
-                case 4:
+                case 4: /*desocupar un puesto */
                     System.out.println("Ingrese la fila del puesto a desocupar: ");
                     fila = leerEntero("", 1, parqueadero.getFilas()) - 1;
                     System.out.println("Ingrese la columna del puesto a desocupar: ");
@@ -129,7 +133,7 @@ public class App {
                     }
                     break;
 
-                case 5:
+                case 5: /*Identificar el propietario de un vehículo en un puesto específico */
                     System.out.println("Ingrese la fila del puesto para identificar al propietario: ");
                     fila = leerEntero("", 1, parqueadero.getFilas()) - 1;
                     System.out.println("Ingrese la columna del puesto para identificar al propietario: ");
@@ -143,7 +147,7 @@ public class App {
                     }
                     break;
 
-                case 6:
+                case 6: /*Generar y mostrar el reporte diario */
                     Map<Integer, Double> reporteDiario = parqueadero.generarReporteDiario();
                     System.out.println("Reporte diario: ");
                     for (Map.Entry<Integer, Double> entry : reporteDiario.entrySet()) {
@@ -153,7 +157,7 @@ public class App {
                     }
                     break;
 
-                case 7:
+                case 7: /* Generar y mostrar el reporte mensual*/
                     Map<Integer, Double> reporteMensual = parqueadero.generarReporteMensual();
                     System.out.println("Reporte mensual: ");
                     for (Map.Entry<Integer, Double> entry : reporteMensual.entrySet()) {
@@ -170,7 +174,7 @@ public class App {
                     }
                     break;
 
-                case 8:
+                case 8:/*Mostrar el estado del parqueadero (puestos libres y ocupados) */
                     System.out.println("Estado del parqueadero: ");
                     for (int i = 0; i < parqueadero.getFilas(); i++) {
                         for (int j = 0; j < parqueadero.getColumnas(); j++) {
@@ -181,7 +185,7 @@ public class App {
                     break;
 
                 case 9:
-                    salir = true;
+                    salir = true; /*salida */
                     break;
 
                 default:
@@ -201,6 +205,7 @@ public class App {
         return valor;
     }
 
+    /* entero dentro de un rango específico */
     public static int leerEntero(String mensaje, int min, int max) {
         int valor;
         do {
