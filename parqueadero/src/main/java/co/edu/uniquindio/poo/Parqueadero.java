@@ -192,7 +192,7 @@ public class Parqueadero {
                             double total = reporteDiario.getOrDefault(vehiculo.getTipo(), 0.0);/* Obtener el total acumulado para el tipo de vehículo*/
                             double tarifaPorHora = tarifasPorHora.getOrDefault(vehiculo.getTipo(), 0.0); /*tarifa por hora */
                             double tarifaDiaria = tarifasDiarias.getOrDefault(vehiculo.getTipo(), 0.0);/*tarifa por dia */
-                            total += horas * tarifaPorHora * tarifaDiaria;/*Calcular el total sumando las tarifas multiplicadas por el número de horas */
+                            total += horas * tarifaPorHora + tarifaDiaria;/*Calcular el total sumando las tarifas multiplicadas por el número de horas */
                             reporteDiario.put(vehiculo.getTipo(), total);/*Actualizar el total en el reporte diario */
                         }
                     }
